@@ -1,0 +1,47 @@
+# * Format of rules:
+
+# [a1, a2, a3 ...[b1, b2, b3... [c1, c2, c3...]]]
+#
+# - The first level (a) defines which attributes are used to name the top level directory
+# - The second level (b) defines which attributes are used to name the data files
+# - The third level (c) defines which attributes are used as index keys
+
+# * Rules can be grouped
+
+# [a1, a2, a3 ...
+#   [b1, b2, b3... [c1, c2, c3...]]
+#   [B1, B2, B3... [C1, C2, C3...]]
+# ]
+
+# * A list of values can be given for an attribute
+# [ ..., stream=enfo/efov, ... ]
+
+# * Attributes can be typed
+#   Globally, at the beginning of this file:
+#
+#   date: Date;
+#
+#   or in the context of a rule:
+#   [type=cl, ... [date:ClimateMonth, ...]]
+
+# * Attributes can be optional
+# [ step, levelist?, param ]
+# They will be replaced internally by an empty value or a default substitution value: e.g. [domain?g].
+
+# * Attributes can be removed:
+# [grid-]
+
+# Default types
+
+param:      Param;
+step:       Step;
+date:       Date;
+levelist:   Double;
+grid:       Grid;
+expver:     Expver;
+time:       Time;
+
+[ class, expver, stream=oper/dcda/scda, date, time, domain
+       [ type, levtype
+               [ step, levelist?, param ]]
+]

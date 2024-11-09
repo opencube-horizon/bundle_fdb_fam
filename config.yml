@@ -1,0 +1,12 @@
+---
+schema: ./schema
+type: local
+engine: toc
+store: fam
+spaces:
+- handler: Default
+  roots:
+  - path: ./database
+fam_roots:
+- uri: "fam://10.115.3.2:8080/demo_fdb_fam_region"
+  writable: true

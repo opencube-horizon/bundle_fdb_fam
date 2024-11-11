@@ -1,0 +1,3 @@
+[submodule "bundle/ecbuild"]
+	path = bundle/ecbuild
+	url = https://github.com/ecmwf/ecbuild.git

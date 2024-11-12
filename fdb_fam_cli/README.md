@@ -2,7 +2,24 @@
 
 This is an example use-case that demonstrates the FDB CLI tools and the OpenFAM API. The tools allow users to configure, archive, retrieve, and validate GRIB data within the FDB database.
 
-<!-- Ensure that FDB is built with OpenFAM support. -->
+> [!IMPORTANT]
+> Ensure that FDB is built with OpenFAM support.
+
+## Environment setup
+
+```bash
+# OpenFAM configs
+export OPENFAM_ROOT="/shared/WP/3/OpenFam/$HOSTTYPE/build/"
+
+# OpenFAM libraries
+export LD_LIBRARY_PATH="/shared/WP/3/OpenFam/$HOSTTYPE/install/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/shared/WP/3/OpenFam/$HOSTTYPE/install/lib64:$LD_LIBRARY_PATH"
+
+# FDB binaries
+export PATH=~/workspace/demo/bundle/build/$HOSTTYPE/bin/:$PATH
+```
+
+If `HOSTTYPE` is missing, `export HOSTTYPE=$(uname -m)`.
 
 ## Configuration
 
@@ -76,16 +93,41 @@ fdb-write --config=config.yml in.grib
 ```
 
 Refer to the [FDB Configuration](#fdb-configuration) section for details on the `config.yml` file.
+The successful output message would look like the following,
+
+Sample output message:
+```bash
+Processing in.grib
+FDB archive 1 message, size 1.44141 Kbytes, in 0.0708 second (20.3577 Kbytes per second)
+fdb::service::archive: 0.071014 second elapsed, 0.054167 second cpu
+```
+
+The FDB catalogue creates the database `rd:xxxx:oper:20201102:0000:g`,
+
+```bash
+rd:xxxx:oper:20201102:0000:g/schema
+rd:xxxx:oper:20201102:0000:g/toc
+rd:xxxx:oper:20201102:0000:g/sfc.20241112.135920.infra1.114009906872321.index
+```
+
+while the bulk data `in.grib` is stored on FAM as object.
 
 ### Retrieve
 
-To retrieve GRIB data from the FDB database, use the `fdb-read` CLI tool as shown below:
+To retrieve GRIB data (`out.grib`) from the FDB database, use the `fdb-read` CLI tool as shown below:
 
 ```bash
 fdb-read --config=config.yml --raw request out.grib
 ```
 
 Refer to the [FDB Configuration](#fdb-configuration) section for details on the `config.yml` file.
+
+Sample output message:
+```bash
+retrieve,class=rd,expver=xxxx,stream=oper,date=20201102,time=0000,type=fc,levtype=sfc,step=012,domain=g,param=166,target=out.grib
+```
+
+Then, the FDB store creates the bulk data `out.grib` under current directory.
 
 ### Validation
 

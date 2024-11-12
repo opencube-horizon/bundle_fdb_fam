@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
-BUILD_DIR=./build/$(uname -m)
+ARCH=$(uname -m)
+SYS=$(uname -s)
 
-rm -rf $BUILD_DIR
+BUILD_DIR=./build/$ARCH
+
+rm -rf "$BUILD_DIR"
+
+export OpenFAM_ROOT="/shared/WP/3/OpenFam/$ARCH/install/"
+export LD_LIBRARY_PATH="/shared/WP/3/OpenFam/$ARCH/install/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/shared/WP/3/OpenFam/$ARCH/install/lib64:$LD_LIBRARY_PATH"
 
 # -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
 
-MC_INSTALL=1 cmake --no-warn-unused-cli -D$(uname -s)_BUNDLE=1 -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_COLOR_DIAGNOSTICS:BOOL=TRUE -DCMAKE_COLOR_MAKEFILE:BOOL=TRUE -DCMAKE_PROJECT_INCLUDE:STRING="$HOME/workspace/.cmake/project_hook.cmake" -B"$BUILD_DIR" -G Ninja
+cmake --no-warn-unused-cli -D"${SYS}_BUNDLE"=1 -DCMAKE_INSTALL_PREFIX="/shared/members/ECMWF/software/$ARCH" -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_COLOR_DIAGNOSTICS:BOOL=TRUE -DCMAKE_COLOR_MAKEFILE:BOOL=TRUE -B"$BUILD_DIR" -G Ninja
 
 echo "export PATH=\"$BUILD_DIR/bin:\$PATH\""
 echo "export ECCODES_DEFINITION_PATH=\"$BUILD_DIR/share/eccodes/definitions/\""

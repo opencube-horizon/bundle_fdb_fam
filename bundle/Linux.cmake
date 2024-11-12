@@ -3,12 +3,6 @@ macro( set_verbose )
     message( STATUS "SETTING -> ${ARGV0} = ${ARGV1}" )
 endmacro()
 
-set_verbose( CMAKE_INSTALL_PREFIX "/shared/members/ECMWF/software/${CMAKE_HOST_SYSTEM_PROCESSOR}" )
-
-set_verbose( ENV{OpenFAM_ROOT} "/shared/WP/3/OpenFam/${CMAKE_HOST_SYSTEM_PROCESSOR}/install/" )
-set_verbose( ENV{LD_LIBRARY_PATH} "/shared/WP/3/OpenFam/${CMAKE_HOST_SYSTEM_PROCESSOR}/install/lib:$ENV{LD_LIBRARY_PATH}" )
-set_verbose( ENV{LD_LIBRARY_PATH} "/shared/WP/3/OpenFam/${CMAKE_HOST_SYSTEM_PROCESSOR}/install/lib64:$ENV{LD_LIBRARY_PATH}" )
-
 set_verbose( ENABLE_NETCDF           OFF  CACHE  BOOL "NetCDF" FORCE)
 set_verbose( ENABLE_DUMMY_TAPES      OFF  CACHE  BOOL "Build dummy tape interface" FORCE)
 set_verbose( ENABLE_JPG              OFF  CACHE  BOOL "no JPG" FORCE)

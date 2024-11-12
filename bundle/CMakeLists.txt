@@ -31,9 +31,9 @@ endif()
 
 ecbuild_bundle_initialize()
 
-ecbuild_bundle( PROJECT eckit   GIT "ssh://git@github.com/ecmwf/eckit"    BRANCH project/opencube UPDATE )
-ecbuild_bundle( PROJECT eccodes GIT "ssh://git@github.com/ecmwf/eccodes"  TAG    2.36.0  UPDATE )
-ecbuild_bundle( PROJECT metkit  GIT "ssh://git@github.com/ecmwf/metkit"   TAG    1.11.14 UPDATE )
-ecbuild_bundle( PROJECT fdb     GIT "ssh://git@github.com/ecmwf/fdb"      BRANCH project/opencube UPDATE )
+ecbuild_bundle( PROJECT eckit   GIT "https://github.com/ecmwf/eckit.git"   BRANCH project/opencube UPDATE )
+ecbuild_bundle( PROJECT eccodes GIT "https://github.com/ecmwf/eccodes.git" TAG    2.36.0  UPDATE )
+ecbuild_bundle( PROJECT metkit  GIT "https://github.com/ecmwf/metkit.git"  TAG    1.11.14 UPDATE )
+ecbuild_bundle( PROJECT fdb     GIT "https://github.com/ecmwf/fdb.git"     BRANCH project/opencube UPDATE )
 
 ecbuild_bundle_finalize()

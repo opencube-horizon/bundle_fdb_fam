@@ -33,13 +33,13 @@ fam_roots:
 In order to use FAM as storage for FDB databases, one must create regions on FAM first. The `fdb-fam` CLI tool provides create/lookup/delete features, as shown below:
 
 ```bash
-$ fdb-fam --endpoint=10.115.3.2:8080 --create --size=4096 demo_region
+$ fdb-fam --endpoint=10.115.3.1:8780 --create --size=4096 demo_region
 Created FamRegion[Property[size=4096, perm=416(0640),name=demo_region,uid=10005,gid=10005],status=initialized]
 
-$ fdb-fam --endpoint=10.115.3.2:8080 --lookup demo_region
+$ fdb-fam --endpoint=10.115.3.1:8780 --lookup demo_region
 FamRegion[Property[size=4096, perm=416(0640),name=demo_region,uid=10005,gid=10005],status=initialized]
 
-$ fdb-fam --endpoint=10.115.3.2:8080 --delete demo_region
+$ fdb-fam --endpoint=10.115.3.1:8780 --delete demo_region
 Deleted FamRegion[Property[size=4096, perm=416(0640),name=demo_region,uid=10005,gid=10005],status=invalid]
 ```
 

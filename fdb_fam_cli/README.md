@@ -7,16 +7,29 @@ This is an example use-case that demonstrates the FDB CLI tools and the OpenFAM 
 
 ## Environment setup
 
+OpenFAM services running on OpenCUBE systems are,
+
+```bash
+Service             Id  Host          RPC Port
+----------------  ----  ----------  ----------
+memory service       0  10.115.3.1        8790
+memory service       1  10.115.3.2        8791
+metadata service     0  10.115.3.1        8787
+CIS                  0  10.115.3.1        8780
+```
+
+where `10.115.3.1` is infra1 and `10.115.3.2` is infra2. The following are the relevant environment variables,
+
 ```bash
 # OpenFAM configs
-export OPENFAM_ROOT="/shared/WP/3/OpenFam/$HOSTTYPE/build/"
+export OPENFAM_ROOT="/shared/members/ECMWF/software/fam/$HOSTTYPE"
 
 # OpenFAM libraries
-export LD_LIBRARY_PATH="/shared/WP/3/OpenFam/$HOSTTYPE/install/lib:$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="/shared/WP/3/OpenFam/$HOSTTYPE/install/lib64:$LD_LIBRARY_PATH"
+export OPENFAM_INSTALL_DIR="/shared/WP/3/OpenFam/$HOSTTYPE/install"
+export LD_LIBRARY_PATH="$OPENFAM_INSTALL_DIR/lib:$OPENFAM_INSTALL_DIR/lib64:/opt/cray/libfabric/1.20.1/lib64:$LD_LIBRARY_PATH"
 
 # FDB binaries
-export PATH=~/workspace/demo/bundle/build/$HOSTTYPE/bin/:$PATH
+export PATH="/path_to_bundle/build/$HOSTTYPE/bin/:$PATH"
 ```
 
 If `HOSTTYPE` is missing, `export HOSTTYPE=$(uname -m)`.
@@ -24,7 +37,7 @@ If `HOSTTYPE` is missing, `export HOSTTYPE=$(uname -m)`.
 ## Configuration
 
 The schema location, storage type, and the endpoints for the FAM storage are specified in the configuration file, [config.yml](config.yml).
-In the following configuration, FDB uses `./database` for indexing and OpenFAM interface endpoint `10.115.3.2:8080` for storing the bulk data.
+In the following configuration, FDB uses `./database` for indexing and OpenFAM interface endpoint `10.115.3.1:8780` for storing the bulk data.
 
 ```yaml
 ---
@@ -37,7 +50,7 @@ spaces:
   roots:
   - path: ./database
 fam_roots:
-- uri: "fam://10.115.3.2:8080/demo_fdb_fam_region"
+- uri: "fam://10.115.3.1:8780/demo_fdb_fam_region"
 ```
 
 ## Schema
@@ -72,7 +85,7 @@ retrieve,
    class=rd,
    expver=xxxx,
    stream=oper,
-   date=20201102,
+   date=20241126,
    time=0000,
    type=fc,
    levtype=sfc,
@@ -102,12 +115,12 @@ FDB archive 1 message, size 1.44141 Kbytes, in 0.0708 second (20.3577 Kbytes per
 fdb::service::archive: 0.071014 second elapsed, 0.054167 second cpu
 ```
 
-The FDB catalogue creates the database `rd:xxxx:oper:20201102:0000:g`,
+The FDB catalogue creates the database `rd:xxxx:oper:20241126:0000:g`,
 
 ```bash
-rd:xxxx:oper:20201102:0000:g/schema
-rd:xxxx:oper:20201102:0000:g/toc
-rd:xxxx:oper:20201102:0000:g/sfc.20241112.135920.infra1.114009906872321.index
+rd:xxxx:oper:20241126:0000:g/schema
+rd:xxxx:oper:20241126:0000:g/toc
+rd:xxxx:oper:20241126:0000:g/sfc.20241126.135920.infra1.114009906872321.index
 ```
 
 while the bulk data `in.grib` is stored on FAM as object.
@@ -124,7 +137,7 @@ Refer to the [FDB Configuration](#fdb-configuration) section for details on the 
 
 Sample output message:
 ```bash
-retrieve,class=rd,expver=xxxx,stream=oper,date=20201102,time=0000,type=fc,levtype=sfc,step=012,domain=g,param=166,target=out.grib
+retrieve,class=rd,expver=xxxx,stream=oper,date=20241126,time=0000,type=fc,levtype=sfc,step=012,domain=g,param=166,target=out.grib
 ```
 
 Then, the FDB store creates the bulk data `out.grib` under current directory.

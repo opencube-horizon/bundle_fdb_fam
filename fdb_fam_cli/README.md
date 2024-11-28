@@ -2,6 +2,8 @@
 
 This is an example use-case that demonstrates the FDB CLI tools and the OpenFAM API. The tools allow users to configure, archive, retrieve, and validate GRIB data within the FDB database.
 
+https://github.com/user-attachments/assets/c9397bdf-25f7-4de7-8722-9ac11696009a
+
 > [!IMPORTANT]
 > Ensure that FDB is built with OpenFAM support.
 
